@@ -3,11 +3,10 @@
 ## @testing-library 🐙 best practices
 
 ### Running the exercise
-1. Checkout to `exercise-02` branch
-2. Go to [`app.test.js`](src/app.test.js) file
-3. To run the app execute
+1. Go to [`app.test.js`](src/app.test.js) file
+2. To run the app execute
 > yarn start
-4. To run the tests execute
+3. To run the tests execute
 > yarn test 
 
 ## ✏️ Exercise

@@ -1,38 +1,48 @@
 import React from 'react';
-import '@testing-library/jest-dom';
-import { fireEvent, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { render, screen } from '@testing-library/react';
 
 import { App } from './app';
 
+function doTimes(callback, times) {
+  new Array(times).fill().forEach(callback);
+}
+
 it('should show alert message when counter reaches its limit', async () => {
-  render(<App />);
-  const count = screen.getByTestId('count');
-  expect(count).toBeTruthy();
-  expect(count.textContent).toBe('0');
+  let limit = 5;
+  const { rerender } = render(<App />);
 
-  const button = screen.getByTestId('counter');
-  expect(button).toBeTruthy();
-  expect(button.textContent).toBe('Click me');
-  expect(button.disabled).toBe(false);
+  const count = screen.getByLabelText(`User clicked ${0} times`, { name: 0 });
+  expect(count).toBeInTheDocument();
 
-  fireEvent.click(button);
-  expect(count.textContent).toBe('1');
+  const button = screen.getByRole('button', { name: /click me/i });
+  expect(button).toBeInTheDocument();
+  expect(button).toBeEnabled();
 
-  fireEvent.click(button);
-  fireEvent.click(button);
-  fireEvent.click(button);
-  fireEvent.click(button);
-  expect(count.textContent).toBe('5');
+  doTimes(() => {
+    userEvent.click(button);
+  }, limit);
 
-  expect(button.disabled).toBe(true);
-  const error = screen.getByText('Error! reached limit');
-  expect(error).toBeTruthy();
+  expect(count).toHaveTextContent(limit);
+  expect(button).toBeDisabled();
 
-  const resetButton = screen.getByTestId('reset');
-  expect(resetButton).toBeTruthy();
-  expect(resetButton.textContent).toBe('Reset app');
+  const error = screen.queryByRole('alert');
+  expect(error).toBeInTheDocument();
+  expect(error).toHaveTextContent(/error! reached limit/i);
 
-  fireEvent.click(resetButton);
+  limit = 10;
+  rerender(<App limit={limit} />);
+
+  expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+
+  doTimes(() => {
+    userEvent.click(button);
+  }, limit);
+
+  const resetButton = screen.getByRole('button', { name: /reset app/i });
+  expect(resetButton).toBeInTheDocument();
+
+  userEvent.click(resetButton);
 
   expect(window.location.reload).toHaveBeenCalledTimes(1);
 });
