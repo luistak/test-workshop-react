@@ -1,11 +1,11 @@
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 
-import { Counter } from './counter';
+import { App } from './app';
 
 ReactDOM.render(
   <StrictMode>
-    <Counter />
+    <App />
   </StrictMode>,
   document.getElementById('root')
 );
