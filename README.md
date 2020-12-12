@@ -5,11 +5,10 @@
 ### Custom Jest Matcher
 
 #### Running the exercise
-1. Checkout to `exercise-01` branch
-2. Go to [`custom-matcher.test.js`](src/custom-matcher.test.js) file
-3. To run the counter app execute
+1. Go to [`custom-matcher.test.js`](src/custom-matcher.test.js) file
+2. To run the counter app execute
 > yarn start
-4. To run the tests execute
+3. To run the tests execute
 > yarn test
 
 #### Todo's
