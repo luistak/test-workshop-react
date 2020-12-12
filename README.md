@@ -13,10 +13,17 @@ In this workshop we’ll learn how testing frameworks like `jest-dom` and `@test
 
 ## ✏️ Exercises
 
-**Custom Jest Matcher**
+### Custom Jest Matcher
 
+#### Running the exercise**
 1. Checkout to `exercise-01` branch
-2. Follow README.md instructions 🎉
+2. Go to [`custom-matcher.test.js`](src/__tests__/custom-matcher.test.js) file
+3. To run the tests execute
+> yarn exercise:01
+
+#### Todo's
+1. Create a custom jest matcher following [this example](https://jestjs.io/docs/en/expect#expectextendmatchers)
+2. Makes the tests pass **without modifing the test case**
 
 **Tests refactor**
 

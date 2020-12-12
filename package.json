@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "test": "react-scripts test",
+    "exercise:01": "yarn test src/__tests__/custom-matcher.test",
     "start": "react-scripts start"
   },
   "dependencies": {
