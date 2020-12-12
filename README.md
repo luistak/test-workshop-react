@@ -1,4 +1,4 @@
-# Testing Fundamentals - React 🔍
+# Testing Workshop - React 🔍
 
 ## ✏️ Exercise 1 
 
