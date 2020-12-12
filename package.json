@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "test": "react-scripts test",
-    "exercise:01": "yarn test src/__tests__/custom-matcher.test",
     "start": "react-scripts start"
   },
   "dependencies": {
@@ -15,8 +14,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "jest-axe": "^4.1.0"
+    "@testing-library/user-event": "^12.1.10"
   },
   "eslintConfig": {
     "extends": [
