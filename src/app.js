@@ -4,25 +4,23 @@ import { Quantity } from './quantity';
 
 import './app.css';
 
-const initialTheme = 'dark';
-const themeCtx = createContext(initialTheme);
-const { Provider: ThemeProvider } = themeCtx;
+const themeCtx = createContext();
+const { Provider } = themeCtx;
 
-function Page({ children, ...props }) {
-  const theme = useContext(themeCtx);
-
-  return (
-    <main className={theme}>
-      <Quantity {...props}/>
-      {children}
-    </main>
-  );
+function useTheme() {
+  const context = useContext(themeCtx);
+  if (!context) {
+    throw new Error('You must use useTheme() withing a <ThemeProvider />')
+  }
+  
+  const { theme, toggleTheme }  = context;
+  return [theme, toggleTheme]
 }
 
-export function App(props) {
-  const [theme, setTheme] = useState(initialTheme);
+export function ThemeProvider({ children, initialTheme }) {
+  const [theme, setTheme] = useState(initialTheme || 'dark');
 
-  const handleClick = () => {
+  const toggleTheme = () => {
     if (theme === 'light') {
       setTheme('dark');
     } else {
@@ -31,11 +29,28 @@ export function App(props) {
   }
 
   return (
-    <ThemeProvider value={theme}>
-      <Page {...props}>
+    <Provider value={{ theme, toggleTheme }}>
+      {children}
+    </Provider>
+  );
+}
+
+export function Page({ children, ...props }) {
+  const [theme, toggleTheme] = useTheme();
+
+  return (
+    <main className={theme}>
+      <Quantity {...props}/>
         <br/>
-        <button onClick={handleClick}>Toggle theme</button>
-      </Page>
+        <button onClick={toggleTheme}>Toggle theme</button>
+    </main>
+  );
+}
+
+export function App(props) {
+  return (
+    <ThemeProvider>
+      <Page {...props}/>
     </ThemeProvider>
   );
 }
