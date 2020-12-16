@@ -10,8 +10,6 @@ yarn start
 
 ## ✏️ Exercise
 
-### Todo's
-
 In the [`customRender.test.js`](src/__tests__/customRender.test.js) there is a small test and you will need to
 
 1. Fix the tests adding a [Wrapper](https://testing-library.com/docs/react-testing-library/api#wrapper) or a [`customRender`](https://testing-library.com/docs/react-testing-library/setup#custom-render)
@@ -21,7 +19,7 @@ To run the tests execute
 yarn customRender
 ```
 
-## :pen: Extra exercise - 1️⃣
+### 🤖 Extra exercise - 1️⃣
 
 Now just change the App import
 In the [`customRender.test.js`](src/__tests__/customRender.test.js) change the import from:
@@ -39,9 +37,8 @@ And you need to:
 
 1. Fix the test now with a `redux` Provider
 
-## 🤖 Extra exercise - 02
+### 🤖 Extra exercise - 2️⃣
 
-### Todo's
 
 In the [`app.integration.test.js`](src/__tests__/app.integration.test.js) there is a test with several instructions and you need to
 
