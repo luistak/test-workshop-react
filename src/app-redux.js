@@ -1,4 +1,4 @@
-import { useState, useContext, createContext, Component } from 'react';
+import { useState, Component } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -6,24 +6,50 @@ import {
   Link
 } from 'react-router-dom';
 
+import { createStore } from 'redux';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+
 import { checkOut } from './api';
 import { mockedItems } from './mocks';
 
-const EcommerceContext = createContext();
+const initialState = {
+  items: mockedItems,
+  cart: {
+    items: {},
+  },
+};
 
-function useCartItems() {
-  const context = useContext(EcommerceContext);
-  if (!context) {
-    throw new Error('useCartItems must be used within a EcommerceProvider')
-  }
-
-  const { cart: { items = {} } } = context;
-
-  return items;
+const ACTIONS = {
+  SET_ITEMS: 'SET_ITEMS',
+  SET_CART_ITEMS: 'SET_CART_ITEMS',
 }
 
+function reducer(
+  state = initialState,
+  action
+) {
+  switch (action.type) {
+    case ACTIONS.SET_CART_ITEMS: {
+      return {
+        ...state,
+        cart: {
+          items:action.payload.items,
+        },
+      };
+    }
+    default: {
+      return state;
+    }
+  }
+}
+
+const setCartItems = (items) => ({
+  type: ACTIONS.SET_CART_ITEMS,
+  payload: { items }
+});
+
 export function Cart() {
-  const items = useCartItems();
+  const items = useSelector((state) => state.cart.items);
   const quantity = Object.values(items).reduce((agg, val) => agg + val, 0);
 
   return (
@@ -35,7 +61,7 @@ export function Cart() {
 }
 
 function Home() {
-  const { items } = useContext(EcommerceContext);
+  const items = useSelector((state) => state.items);
 
   return (
     <div>
@@ -60,7 +86,7 @@ function Home() {
 
 const Details = ({ onAddToCart, match } ) => {
   const { params: { itemId } } = match;
-  const { items = [] } = useContext(EcommerceContext);
+  const items = useSelector((state) => state.items);
   const [quantity, setQuantity] = useState(0);
 
   const item = items.find(({ id }) => id === Number(itemId));
@@ -112,7 +138,7 @@ function Checkout({ onCartItemChange, onClearCart, history }) {
     cart: {
       items: cartItemsMap
     }
-  } = useContext(EcommerceContext);
+  } = useSelector((state) => state);
 
   const handleCheckOut = () => {
     const checkOutOrder = async () => {
@@ -209,28 +235,11 @@ class ErrorBoundary extends Component {
   }
 }
 
-export function EcommerceProvider({
-  children,
-  items = [],
-  cartItems = {}
-}) {
-  return (
-    <EcommerceContext.Provider value={{
-      items,
-      cart: {
-        items: cartItems
-      }
-    }}>
-      {children}
-    </EcommerceContext.Provider>
-  )
-}
+function PocketEcommerce() {
+  const cartItems = useSelector((state) => state.cart.items);
+  const dispatch = useDispatch();
 
-export function App() {
-  const items = mockedItems;
-  const [cartItems, setCartItems] = useState({});
-
-  const handleClearCart = () => setCartItems({});
+  const handleClearCart = () => dispatch(setCartItems({}));
   const handleCartItemChange = (itemId, quantity) => {
     const cartItemQuantity = cartItems[itemId] || 0;
     const newQuantity = Number(cartItemQuantity + Number(quantity));
@@ -244,37 +253,44 @@ export function App() {
       delete newCartItems[itemId];
     }
 
-    setCartItems(newCartItems);
+    dispatch(setCartItems(newCartItems));
   }
 
   return (
+    <Router>
+      <header style={{
+        display: 'flex',
+        padding: '1rem',
+        justifyContent: 'space-between',
+      }}>
+        <Link to="/">Pocket eCommerce</Link>
+        <Cart />
+      </header>
+      <Switch>
+        <Route
+          path="/item/:itemId"
+          component={(routeProps) => <Details onAddToCart={handleCartItemChange} {...routeProps}/>}
+        />
+        <Route
+          path="/checkout"
+          component={(routeProps) => (
+            <Checkout onCartItemChange={handleCartItemChange} onClearCart={handleClearCart} {...routeProps}/>
+          )}
+        />
+        <Route path="/" component={Home} />
+      </Switch>
+    </Router>
+  )
+}
+
+
+export function App() {
+  return (
     <ErrorBoundary>
       <div className="app">
-        <EcommerceProvider items={items} cartItems={cartItems}>
-          <Router>
-            <header style={{
-              display: 'flex',
-              padding: '1rem',
-              justifyContent: 'space-between',
-            }}>
-              <Link to="/">Pocket eCommerce</Link>
-              <Cart />
-            </header>
-            <Switch>
-              <Route
-                path="/item/:itemId"
-                component={(routeProps) => <Details onAddToCart={handleCartItemChange} {...routeProps}/>}
-              />
-              <Route
-                path="/checkout"
-                component={(routeProps) => (
-                  <Checkout onCartItemChange={handleCartItemChange} onClearCart={handleClearCart} {...routeProps}/>
-                )}
-              />
-              <Route path="/" component={Home} />
-            </Switch>
-          </Router>
-        </EcommerceProvider>
+        <Provider store={createStore(reducer)}>
+          <PocketEcommerce />
+        </Provider>
       </div>
     </ErrorBoundary>
   );
