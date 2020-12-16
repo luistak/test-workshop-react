@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 
 import { checkOut } from './api';
-import { mockedItems } from './mocks';
+import { mockedItems } from './db';
 
 const EcommerceContext = createContext();
 

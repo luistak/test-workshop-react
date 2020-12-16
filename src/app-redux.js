@@ -10,7 +10,7 @@ import { createStore } from 'redux';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 
 import { checkOut } from './api';
-import { mockedItems } from './mocks';
+import { mockedItems } from './db';
 
 const initialState = {
   items: mockedItems,
