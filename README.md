@@ -11,15 +11,11 @@
 
 ## ✏️ Exercise
 
-### Todo's
-
 In the `app.tests.js` there is a working integration test and you will need to:
 
 1. Refactor the test using the best practices you have learned
 
-## :pen: Extra exercise
-
-### Todo's
+### 🤖 Extra exercise
 
 In the `app.js` there is a `limit` property which controls the maximun number of clicks, than in this exercise you'll need to:
 
