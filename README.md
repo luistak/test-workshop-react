@@ -13,6 +13,8 @@ In this workshop we’ll learn how testing frameworks like `jest-dom` and `@test
 
 ## ✏️ Exercises
 
+Some of the exercises has 🤖 *Extra exercises* which contains it's own instructions
+
 **Custom Jest Matcher**
 
 1. Checkout to `exercise-01` branch
@@ -26,20 +28,30 @@ In this workshop we’ll learn how testing frameworks like `jest-dom` and `@test
 **Custom render**
 
 1. Checkout to `exercise-03` branch
-2. Follow README.md instructions 🎉
+2. Follow README.md instructions 🎉 
 
-**Pocket eCommerce**
-
-1. Checkout to `exercise-04` branch
-2. Follow README.md instructions 🎉
 
 ## 📖 Presentation material
 
 You can check every workshop material at the `solutions` branch
 
+### I18n
+
+* [`react-intl` custom render setup](https://testing-library.com/docs/example-react-intl/)
+
+Kent's Tweet's
+* [Assert Keys](https://twitter.com/kentcdodds/status/1012035895023882245)
+* [Default translations](https://twitter.com/kentcdodds/status/1181591171518230528)
+
+### A11y
+
+* Using [`jest-axe`](https://github.com/nickcolley/jest-axe)
+* Using [`eslint-plugin-jsx-a11y`](https://www.npmjs.com/package/eslint-plugin-jsx-a11y)
+* [Chrome extensions](https://www.digitala11y.com/accessibility-plug-ins-ie-chrome-firefox-browsers/)
+
 ## :speaking_head: Feedback form
 
-After the workshop please submit this [form](TODO: add form feedback) to give overall feedback.
+After the workshop please submit this [form](https://forms.gle/HzhHBQZ2GcwDE18N8) to give overall feedback.
 
 Thank you!
 
