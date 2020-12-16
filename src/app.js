@@ -8,18 +8,18 @@ const initialTheme = 'dark';
 const themeCtx = createContext(initialTheme);
 const { Provider: ThemeProvider } = themeCtx;
 
-function Page({ children }) {
+function Page({ children, ...props }) {
   const theme = useContext(themeCtx);
 
   return (
     <main className={theme}>
-      <Quantity />
+      <Quantity {...props}/>
       {children}
     </main>
   );
 }
 
-export function App() {
+export function App(props) {
   const [theme, setTheme] = useState(initialTheme);
 
   const handleClick = () => {
